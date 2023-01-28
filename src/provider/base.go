@@ -27,9 +27,24 @@ func RegisterProvider(provider string, defaultScopes []string) {
 func (p Base) GetAuthURLFromBase(authURL string) string {
 	var buf bytes.Buffer
 	buf.WriteString(authURL)
+	v := p.GetAuthCodeFields()
+	//for _, opt := range opts {
+	//	opt.setValue(v)
+	//}
+	if strings.Contains(p.Endpoint.AuthURL, "?") {
+		buf.WriteByte('&')
+	} else {
+		buf.WriteByte('?')
+	}
+	buf.WriteString(v.Encode())
+
+	return buf.String()
+}
+
+func (p Base) GetAuthCodeFields() url.Values {
 	v := url.Values{
-		"response_type": {"code"},
 		"client_id":     {p.ClientID},
+		"response_type": {"code"},
 	}
 	if p.RedirectURL != "" {
 		v.Set("redirect_uri", p.RedirectURL)
@@ -40,14 +55,6 @@ func (p Base) GetAuthURLFromBase(authURL string) string {
 	if p.State != "" {
 		v.Set("state", p.State)
 	}
-	//for _, opt := range opts {
-	//	opt.setValue(v)
-	//}
-	if strings.Contains(p.Endpoint.AuthURL, "?") {
-		buf.WriteByte('&')
-	} else {
-		buf.WriteByte('?')
-	}
-	buf.WriteString(v.Encode())
-	return buf.String()
+
+	return v
 }
