@@ -3,7 +3,7 @@ package contract
 type Provider interface {
 	RedirectTo()
 
-	GetAuthUrl() string
+	GetAuthURL() string
 
 	User() User
 }

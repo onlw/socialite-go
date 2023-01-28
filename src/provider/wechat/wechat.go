@@ -34,7 +34,7 @@ func init() {
 	provider.RegisterProvider(name, scopes)
 }
 
-func (p Wechat) GetAuthUrl() string {
+func (p Wechat) GetAuthURL() string {
 	var buf bytes.Buffer
 	path := "oauth2/authorize"
 	if util.Contains("snsapi_login", p.Scopes) {

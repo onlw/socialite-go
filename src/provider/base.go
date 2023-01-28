@@ -13,10 +13,10 @@ type Base struct {
 }
 
 func (p Base) RedirectTo() {
-	http.RedirectHandler(p.GetAuthUrl(), http.StatusFound)
+	http.RedirectHandler(p.GetAuthURL(), http.StatusFound)
 }
 
-func (p Base) GetAuthUrl() string {
+func (p Base) GetAuthURL() string {
 	return ""
 }
 
@@ -24,7 +24,7 @@ func RegisterProvider(provider string, defaultScopes []string) {
 	// todo add RegisterProvider
 }
 
-func (p Base) GetAuthUrlFromBase(authURL string) string {
+func (p Base) GetAuthURLFromBase(authURL string) string {
 	var buf bytes.Buffer
 	buf.WriteString(authURL)
 	v := url.Values{

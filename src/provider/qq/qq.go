@@ -1,4 +1,4 @@
-package github
+package qq
 
 import (
 	"github.com/onlw/socialite-go/v2/config"
@@ -7,15 +7,15 @@ import (
 	"github.com/onlw/socialite-go/v2/provider"
 )
 
-const name = "github"
+const name = "qq"
 
-var scopes = []string{"read:user"}
+var scopes = []string{"get_user_info"}
 
 var endpoint = config.Endpoint{
-	AuthURL: "https://github.com/login/oauth/authorize",
+	AuthURL: "https://graph.qq.com/oauth2.0/authorize",
 }
 
-type Github struct {
+type QQ struct {
 	provider.Base
 }
 
@@ -23,14 +23,14 @@ func init() {
 	provider.RegisterProvider(name, scopes)
 }
 
-func (p Github) GetAuthURL() string {
+func (p QQ) GetAuthURL() string {
 	return p.GetAuthURLFromBase(endpoint.AuthURL)
 }
 
-func (p Github) Redirect() {
+func (p QQ) Redirect() {
 
 }
 
-func (p Github) User() contract.User {
+func (p QQ) User() contract.User {
 	return model.User{}
 }
