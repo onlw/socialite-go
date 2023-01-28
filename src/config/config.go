@@ -10,9 +10,12 @@ type Config struct {
 	RedirectURL string
 
 	Scopes []string
+
+	State string
 }
 
 type Endpoint struct {
-	AuthURL  string
+	AuthURL string
+
 	TokenURL string
 }

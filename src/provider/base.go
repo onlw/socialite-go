@@ -2,12 +2,14 @@ package provider
 
 import (
 	"bytes"
+	"github.com/onlw/socialite-go/v2/config"
 	"net/http"
 	"net/url"
 	"strings"
 )
 
 type Base struct {
+	config.Config
 }
 
 func (p Base) RedirectTo() {
@@ -18,27 +20,30 @@ func (p Base) GetAuthUrl() string {
 	return ""
 }
 
-func (p Base) GetParameters() string {
+func RegisterProvider(provider string, defaultScopes []string) {
+	// todo add RegisterProvider
+}
+
+func (p Base) GetAuthUrlFromBase(authURL string) string {
 	var buf bytes.Buffer
-	buf.WriteString(c.Endpoint.AuthURL)
+	buf.WriteString(authURL)
 	v := url.Values{
 		"response_type": {"code"},
 		"client_id":     {p.ClientID},
 	}
-	if c.RedirectURL != "" {
-		v.Set("redirect_uri", c.RedirectURL)
+	if p.RedirectURL != "" {
+		v.Set("redirect_uri", p.RedirectURL)
 	}
-	if len(c.Scopes) > 0 {
-		v.Set("scope", strings.Join(c.Scopes, " "))
+	if len(p.Scopes) > 0 {
+		v.Set("scope", strings.Join(p.Scopes, " "))
 	}
-	if state != "" {
-		// TODO(light): Docs say never to omit state; don't allow empty.
-		v.Set("state", state)
+	if p.State != "" {
+		v.Set("state", p.State)
 	}
-	for _, opt := range opts {
-		opt.setValue(v)
-	}
-	if strings.Contains(c.Endpoint.AuthURL, "?") {
+	//for _, opt := range opts {
+	//	opt.setValue(v)
+	//}
+	if strings.Contains(p.Endpoint.AuthURL, "?") {
 		buf.WriteByte('&')
 	} else {
 		buf.WriteByte('?')
