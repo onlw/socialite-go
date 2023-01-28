@@ -1,4 +1,4 @@
-package qq
+package WeiBo
 
 import (
 	"github.com/onlw/socialite-go/v2/config"
@@ -7,15 +7,15 @@ import (
 	"github.com/onlw/socialite-go/v2/provider"
 )
 
-const name = "qq"
+const name = "weibo"
 
-var scopes = []string{"get_user_info"}
+var scopes = []string{"email"}
 
 var endpoint = config.Endpoint{
-	AuthURL: "https://graph.qq.com/oauth2.0/authorize",
+	AuthURL: "https://api.weibo.com/oauth2/authorize",
 }
 
-type QQ struct {
+type WeiBo struct {
 	provider.Base
 }
 
@@ -23,16 +23,16 @@ func init() {
 	provider.RegisterProvider(name, scopes)
 }
 
-func (p QQ) GetAuthURL() string {
+func (p WeiBo) GetAuthURL() string {
 	p.ScopeSeparator = ","
 
 	return p.GetAuthURLFromBase(endpoint.AuthURL)
 }
 
-func (p QQ) Redirect() {
+func (p WeiBo) Redirect() {
 
 }
 
-func (p QQ) User() contract.User {
+func (p WeiBo) User() contract.User {
 	return model.User{}
 }

@@ -10,6 +10,7 @@ import (
 
 type Base struct {
 	config.Config
+	ScopeSeparator string `default:" "`
 }
 
 func (p Base) RedirectTo() {
@@ -50,7 +51,7 @@ func (p Base) GetAuthCodeFields() url.Values {
 		v.Set("redirect_uri", p.RedirectURL)
 	}
 	if len(p.Scopes) > 0 {
-		v.Set("scope", strings.Join(p.Scopes, " "))
+		v.Set("scope", strings.Join(p.Scopes, p.ScopeSeparator))
 	}
 	if p.State != "" {
 		v.Set("state", p.State)
